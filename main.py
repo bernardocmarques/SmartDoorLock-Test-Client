@@ -10,10 +10,10 @@ from rsa_util import RSA_Util
 
 AES: AES_Util
 
-door_ip = '192.168.1.139'  # Door ip (Change if necessary)
+door_ip = '192.168.1.112'  # Door ip (Change if necessary)
 door_port = 3333  # Door port (Change if necessary)
 
-rsa = RSA_Util("public_key.pem")  # Door private key
+rsa = RSA_Util("public_key.pem")  # Door public key. (Hardcoded in the server)
 
 # User information, saved in the door
 user_id = "0vn3kfl3n"
@@ -27,7 +27,7 @@ def get_session_credentials_base64():
     iv = bytearray(os.urandom(16))
     iv_b64 = base64.b64encode(iv).decode()
 
-    return AES_Util(key, iv), "SSC " + key_b64 + " " + iv_b64  # todo remove iv
+    return AES_Util(key), f"SSC {key_b64} "
 
 
 ''' ---------------------------------- '''
@@ -53,6 +53,8 @@ res = sock.recv(1024)
 msg, iv = res.decode().split(" ")
 seed = AES.decrypt(msg, iv).split(" ")[1]
 
+print(seed)
+
 # Generate authorization_code based on seed.
 auth_code = base64.b64encode(
     hmac.new(base64.b64decode(master_key), base64.b64decode(seed), hashlib.sha256).digest()).decode()
@@ -64,6 +66,7 @@ sock.send((AES.encrypt(f"SAC {user_id} {auth_code}")).encode())
 res = sock.recv(1024)
 msg, iv = res.decode().split(" ")
 confirmation = AES.decrypt(msg, iv)
+print(confirmation)
 
 # Send request to unlock door. "RUD"
 sock.send((AES.encrypt(f"RUD")).encode())
@@ -75,7 +78,7 @@ confirmation = AES.decrypt(msg, iv)
 
 # Stop client side timer and print time elapsed
 end = time.time()
-print(end - start)
+print(f"Total time: {(end - start):.2f} seconds")
 
 # Close connection to door
 sock.close()

@@ -37,9 +37,8 @@ def _unpad(s):
 
 class AES_Util():
 
-    def __init__(self, key, iv):
+    def __init__(self, key):
         self.key = key
-        self.iv = iv
 
     def encrypt(self, plain_str):
         iv = bytearray(os.urandom(16))
