@@ -1,8 +1,12 @@
-# bluetooth low energy scan
-from bluetooth.ble import DiscoveryService
+import asyncio
+from bleak import BleakClient
 
-service = DiscoveryService()
-devices = service.discover(2)
+address = "01:B6:EC:2A:C0:D9"
+MODEL_NBR_UUID = "00002a24-0000-1000-8000-00805f9b34fb"
 
-for address, name in devices.items():
-    print("name: {}, address: {}".format(name, address))
+async def main(address):
+    async with BleakClient(address) as client:
+        model_number = await client.read_gatt_char(MODEL_NBR_UUID)
+        print("Model Number: {0}".format("".join(map(chr, model_number))))
+
+asyncio.run(main(address))

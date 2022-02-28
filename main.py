@@ -10,7 +10,7 @@ from rsa_util import RSA_Util
 
 AES: AES_Util
 
-door_ip = '192.168.1.112'  # Door ip (Change if necessary)
+door_ip = '192.168.1.139'  # Door ip (Change if necessary)
 door_port = 3333  # Door port (Change if necessary)
 
 rsa = RSA_Util("public_key.pem")  # Door public key. (Hardcoded in the server)
