@@ -5,13 +5,16 @@ import hmac
 import hashlib
 import time
 import traceback
+import random
 
 from aes_util import AES_Util
 from rsa_util import RSA_Util
 
+MAX_NONCE = 2147483647
+
 AES: AES_Util
 
-door_ip = '192.168.1.112'  # Door ip (Change if necessary)
+door_ip = '192.168.1.139'  # Door ip (Change if necessary)
 door_port = 3333  # Door port (Change if necessary)
 
 rsa = RSA_Util("public_key.pem")  # Door public key. (Hardcoded in the server)
@@ -28,8 +31,9 @@ server_t2 = []
 def create_message_ts_and_nonce(message):
     timeframe = 30
     now = int(time.time())
-    # return message
-    return f"{message} {(now - int(timeframe / 2))} {(now + int(timeframe / 2))}"
+    nonce = random.randint(0, MAX_NONCE)
+    # return f"{message} 1646510626 1646510636"
+    return f"{message} {(now - int(timeframe / 2))} {(now + int(timeframe / 2))} {nonce}"
 
 
 def get_session_credentials_base64():
