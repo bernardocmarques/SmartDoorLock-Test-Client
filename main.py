@@ -14,7 +14,7 @@ MAX_NONCE = 2147483647
 
 AES: AES_Util
 
-door_ip = '192.168.1.139'  # Door ip (Change if necessary)
+door_ip = '192.168.1.74'  # Door ip (Change if necessary)
 door_port = 3333  # Door port (Change if necessary)
 
 rsa = RSA_Util("public_key.pem")  # Door public key. (Hardcoded in the server)

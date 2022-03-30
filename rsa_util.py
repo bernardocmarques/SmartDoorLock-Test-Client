@@ -45,7 +45,6 @@ class RSA_Util:
             return None
         return encrypted_msg
 
-
     def get_public_key_base64(self, mode="DER"):
         return base64.b64encode(self.key.publickey().exportKey(mode)).decode()
 

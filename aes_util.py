@@ -16,6 +16,17 @@ def _as_c_array(byte_arr):
     return hex_str
 
 
+def _as_java_array(byte_arr):
+    hex_str = ''
+    for idx, byte in enumerate(byte_arr):
+        n = int("{:d}".format(byte))
+        if n > 127:
+            n -= 256
+        hex_str += f"{n}, "
+
+    return hex_str
+
+
 def _pad(text, block_size):
     """
     Performs padding on the given plaintext to ensure that it is a multiple
