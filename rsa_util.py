@@ -1,6 +1,7 @@
 import base64
 
-from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
+from Crypto.Signature import pss
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from Crypto import Random
@@ -45,6 +46,17 @@ class RSA_Util:
             return None
         return encrypted_msg
 
+    def is_signature_valid(self, msg, signature_b64):
+        signature = base64.b64decode(signature_b64)
+
+        h = SHA256.new(msg)
+        verifier = pss.new(self.key)
+        try:
+            verifier.verify(h, signature)
+            return True
+        except (ValueError, TypeError):
+            return False
+
     def get_public_key_base64(self, mode="DER"):
         return base64.b64encode(self.key.publickey().exportKey(mode)).decode()
 
@@ -55,3 +67,4 @@ class RSA_Util:
     def export_key_to_file(self, filename):
         with open(filename, "wb") as file:
             file.write(self.key.exportKey())
+

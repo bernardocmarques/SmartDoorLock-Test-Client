@@ -14,14 +14,14 @@ MAX_NONCE = 2147483647
 
 AES: AES_Util
 
-door_ip = '192.168.1.74'  # Door ip (Change if necessary)
+door_ip = '192.168.1.6'  # Door ip (Change if necessary)
 door_port = 3333  # Door port (Change if necessary)
 
 rsa = RSA_Util("public_key.pem")  # Door public key. (Hardcoded in the server)
 
 # User information, saved in the door
-user_id = "0vn3kfl3n"
-master_key = "SoLXxAJHi1Z3NKGHNnS5n4SRLv5UmTB4EssASi0MmoI="
+user_id = "I9CUJwR1u2XK0fJ"
+master_key = "ZTPqWW7A0ZNX9MudKFVkyrZlX98135555mViWdE9NCw="
 
 client_times = []
 server_t1 = []
