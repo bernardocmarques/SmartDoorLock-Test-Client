@@ -14,14 +14,14 @@ MAX_NONCE = 2147483647
 
 AES: AES_Util
 
-door_ip = '192.168.1.6'  # Door ip (Change if necessary)
+door_ip = '85.246.43.60'  # Door ip (Change if necessary)
 door_port = 3333  # Door port (Change if necessary)
 
 rsa = RSA_Util("public_key.pem")  # Door public key. (Hardcoded in the server)
 
 # User information, saved in the door
 user_id = "I9CUJwR1u2XK0fJ"
-master_key = "ZTPqWW7A0ZNX9MudKFVkyrZlX98135555mViWdE9NCw="
+master_key = "LjaoVZ6Iyp2MLTKD9hw5TF22v6ER/Oij4WwNmrDSQ5E="
 
 client_times = []
 server_t1 = []
@@ -84,7 +84,7 @@ while i < n:
         confirmation = AES.decrypt(msg, iv)
 
         # Send request to unlock door. "RUD"
-        sock.send((AES.encrypt(create_message_ts_and_nonce(f"RUD"))).encode())
+        sock.send((AES.encrypt(create_message_ts_and_nonce(f"RUD" if i % 2 == 0 else f"RLD"))).encode())
 
         # Receive confirmation of unlocking. "ACK"
         res = sock.recv(1024)
@@ -119,4 +119,4 @@ print(f"Avg. time in client: {sum(client_times) / n} seconds")
 print(f"Avg. time to setup secure channel: {sum(server_t1) / n} microseconds")
 print(f"Avg. time to lock/unlock door: {sum(server_t2) / n} microseconds")
 
-print(f"Total test time: {time.time()-s} seconds")
+print(f"Total test time: {time.time() - s} seconds")
